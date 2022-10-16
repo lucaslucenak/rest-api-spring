@@ -1,6 +1,7 @@
 package br.com.lucaslucena.restcalculatorspring.exceptions.handler;
 
 import br.com.lucaslucena.restcalculatorspring.exceptions.ExceptionResponse;
+import br.com.lucaslucena.restcalculatorspring.exceptions.NotNumericNumberException;
 import br.com.lucaslucena.restcalculatorspring.exceptions.UnsupportedMathOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,12 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler(UnsupportedMathOperationException.class)
     public final ResponseEntity<ExceptionResponse> handleBadRequestException(Exception exception, WebRequest webRequest) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), exception.getMessage(), webRequest.getDescription(false));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotNumericNumberException.class)
+    public final ResponseEntity<ExceptionResponse> handleNotNumericNumberBabRequestException(Exception exception, WebRequest webRequest) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), exception.getMessage(), webRequest.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
