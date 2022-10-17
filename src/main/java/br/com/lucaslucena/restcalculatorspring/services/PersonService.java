@@ -23,4 +23,22 @@ public class PersonService {
         return new ArrayList<>(List.of(new PersonModel(1L, "Lucas", "Lucena", "R iremar", "M"),
         new PersonModel(2L, "Lucas", "Lucena", "R iremar", "M")));
     }
+
+    public List<PersonModel> deleteById() {
+        List<PersonModel> persons = new ArrayList<>(List.of(new PersonModel(1L, "Lucas", "Lucena", "R iremar", "M"),
+                new PersonModel(2L, "Lucas", "Lucena", "R iremar", "M")));
+
+        persons.remove(0);
+        return persons;
+    }
+
+    public PersonModel createPerson(PersonModel personModel) {
+        List<PersonModel> persons = new ArrayList<>();
+        persons.add(personModel);
+        return persons.get(0);
+    }
+
+    public PersonModel updatePerson(PersonModel personModel) {
+        return personModel;
+    }
 }

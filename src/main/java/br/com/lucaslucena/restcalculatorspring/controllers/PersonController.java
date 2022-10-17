@@ -4,10 +4,7 @@ import br.com.lucaslucena.restcalculatorspring.models.PersonModel;
 import br.com.lucaslucena.restcalculatorspring.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +23,20 @@ public class PersonController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PersonModel> findAllPersons() {
         return personService.findAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public List<PersonModel> deletePersonById(@PathVariable("id") String id) {
+        return personService.deleteById();
+    }
+
+    @PostMapping
+    public PersonModel createPerson(@RequestBody PersonModel personModel) {
+        return personService.createPerson(personModel);
+    }
+
+    @PutMapping
+    public PersonModel updatePerson(@RequestBody PersonModel personModel) {
+        return personService.updatePerson(personModel);
     }
 }
