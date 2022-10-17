@@ -1,13 +1,18 @@
-package br.com.lucaslucena.restcalculatorspring.util;
+package br.com.lucaslucena.restcalculatorspring.util.math;
 
 import br.com.lucaslucena.restcalculatorspring.exceptions.NotNumericNumberException;
 import br.com.lucaslucena.restcalculatorspring.util.validation.NumberValidation;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @NoArgsConstructor
+@Component
 public class NumberUtil {
-    NumberValidation numberValidation = new NumberValidation();
+
+    @Autowired
+    NumberValidation numberValidation;
 
     public Double parseDouble(String number) {
         if (number == null) {

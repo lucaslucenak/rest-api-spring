@@ -2,10 +2,12 @@ package br.com.lucaslucena.restcalculatorspring.util.validation;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @NoArgsConstructor
+@Component
 public class NumberValidation {
 
     public boolean isNumeric(String number) {
