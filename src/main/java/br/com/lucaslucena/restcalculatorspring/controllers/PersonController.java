@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/person")
 public class PersonController {
@@ -17,7 +19,12 @@ public class PersonController {
     PersonService personService;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PersonModel getPerson(@PathVariable("id") String id) {
+    public PersonModel findPerson(@PathVariable("id") String id) {
         return personService.findById(id);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<PersonModel> findAllPersons() {
+        return personService.findAll();
     }
 }
