@@ -1,6 +1,9 @@
 package br.com.lucaslucena.restcalculatorspring.services;
 
+import br.com.lucaslucena.restcalculatorspring.exceptions.ResourceNotFoundException;
 import br.com.lucaslucena.restcalculatorspring.models.PersonModel;
+import br.com.lucaslucena.restcalculatorspring.repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,33 +15,42 @@ import java.util.logging.Logger;
 @Service
 public class PersonService {
 
-    private final AtomicLong atomicLong = new AtomicLong();
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
-    public PersonModel findById(String id) {
-        return new PersonModel(1L, "Lucas", "Lucena", "R iremar", "M");
+    @Autowired
+    PersonRepository personRepository;
+
+    public PersonModel savePerson(PersonModel personModel) {
+        return personRepository.save(personModel);
     }
 
-    public List<PersonModel> findAll() {
-        return new ArrayList<>(List.of(new PersonModel(1L, "Lucas", "Lucena", "R iremar", "M"),
-        new PersonModel(2L, "Lucas", "Lucena", "R iremar", "M")));
+    public PersonModel findPersonById(Long id) {
+        return personRepository.findById(id).orElseThrow(() -> {
+            throw new ResourceNotFoundException("Record not found with that ID.");
+        });
     }
 
-    public List<PersonModel> deleteById() {
-        List<PersonModel> persons = new ArrayList<>(List.of(new PersonModel(1L, "Lucas", "Lucena", "R iremar", "M"),
-                new PersonModel(2L, "Lucas", "Lucena", "R iremar", "M")));
-
-        persons.remove(0);
-        return persons;
+    public List<PersonModel> findAllPersons() {
+        return personRepository.findAll();
     }
 
-    public PersonModel createPerson(PersonModel personModel) {
-        List<PersonModel> persons = new ArrayList<>();
-        persons.add(personModel);
-        return persons.get(0);
+    public PersonModel updatePersonById(PersonModel personModel) {
+        var oldPerson = personRepository.findById(personModel.getId()).orElseThrow(() -> {
+            throw new ResourceNotFoundException("Record not found with that ID.");
+        });
+
+        oldPerson.setAddress(personModel.getAddress());
+        oldPerson.setFirstName(personModel.getFirstName());
+        oldPerson.setLastName(personModel.getLastName());
+        oldPerson.setGender(personModel.getGender());
+        return personRepository.save(oldPerson);
     }
 
-    public PersonModel updatePerson(PersonModel personModel) {
-        return personModel;
+    public void deletePersonById(Long id) {
+        var personModel = personRepository.findById(id).orElseThrow(() -> {
+            throw new ResourceNotFoundException("Record not found with that ID.");
+        });
+        personRepository.delete(personModel);
     }
+
 }
