@@ -1,6 +1,6 @@
 package br.com.lucaslucena.restcalculatorspring.controllers;
 
-import br.com.lucaslucena.restcalculatorspring.models.PersonModel;
+import br.com.lucaslucena.restcalculatorspring.data.vo.v1.PersonModelVO;
 import br.com.lucaslucena.restcalculatorspring.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,27 +16,27 @@ public class PersonController {
     PersonService personService;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PersonModel findPerson(@PathVariable("id") String id) {
-        return personService.findById(id);
+    public PersonModelVO findPerson(@PathVariable("id") Long id) {
+        return personService.findPersonById(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PersonModel> findAllPersons() {
-        return personService.findAll();
+    public List<PersonModelVO> findAllPersons() {
+        return personService.findAllPersons();
     }
 
     @DeleteMapping("/{id}")
-    public List<PersonModel> deletePersonById(@PathVariable("id") String id) {
-        return personService.deleteById();
+    public void deletePersonById(@PathVariable("id") Long id) {
+        personService.deletePersonById(id);
     }
 
     @PostMapping
-    public PersonModel createPerson(@RequestBody PersonModel personModel) {
-        return personService.createPerson(personModel);
+    public PersonModelVO createPerson(@RequestBody PersonModelVO personModel) {
+        return personService.savePerson(personModel);
     }
 
     @PutMapping
-    public PersonModel updatePerson(@RequestBody PersonModel personModel) {
-        return personService.updatePerson(personModel);
+    public PersonModelVO updatePerson(@RequestBody PersonModelVO personModel) {
+        return personService.updatePersonById(personModel);
     }
 }

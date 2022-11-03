@@ -1,15 +1,14 @@
 package br.com.lucaslucena.restcalculatorspring.services;
 
+import br.com.lucaslucena.restcalculatorspring.data.vo.v1.PersonModelVO;
 import br.com.lucaslucena.restcalculatorspring.exceptions.ResourceNotFoundException;
+import br.com.lucaslucena.restcalculatorspring.mappers.DozerMapper;
 import br.com.lucaslucena.restcalculatorspring.models.PersonModel;
 import br.com.lucaslucena.restcalculatorspring.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 @Service
@@ -20,21 +19,23 @@ public class PersonService {
     @Autowired
     PersonRepository personRepository;
 
-    public PersonModel savePerson(PersonModel personModel) {
-        return personRepository.save(personModel);
+    public PersonModelVO savePerson(PersonModelVO personModelVO) {
+        var personModel = DozerMapper.parseObject(personModelVO, PersonModel.class);
+        return DozerMapper.parseObject(personRepository.save(personModel), PersonModelVO.class);
     }
 
-    public PersonModel findPersonById(Long id) {
-        return personRepository.findById(id).orElseThrow(() -> {
+    public PersonModelVO findPersonById(Long id) {
+        var personModelVO = personRepository.findById(id).orElseThrow(() -> {
             throw new ResourceNotFoundException("Record not found with that ID.");
         });
+        return DozerMapper.parseObject(personModelVO, PersonModelVO.class);
     }
 
-    public List<PersonModel> findAllPersons() {
-        return personRepository.findAll();
+    public List<PersonModelVO> findAllPersons() {
+        return DozerMapper.parseObjectsList(personRepository.findAll(), PersonModelVO.class);
     }
 
-    public PersonModel updatePersonById(PersonModel personModel) {
+    public PersonModelVO updatePersonById(PersonModelVO personModel) {
         var oldPerson = personRepository.findById(personModel.getId()).orElseThrow(() -> {
             throw new ResourceNotFoundException("Record not found with that ID.");
         });
@@ -43,7 +44,7 @@ public class PersonService {
         oldPerson.setFirstName(personModel.getFirstName());
         oldPerson.setLastName(personModel.getLastName());
         oldPerson.setGender(personModel.getGender());
-        return personRepository.save(oldPerson);
+        return DozerMapper.parseObject(personRepository.save(oldPerson), PersonModelVO.class);
     }
 
     public void deletePersonById(Long id) {
