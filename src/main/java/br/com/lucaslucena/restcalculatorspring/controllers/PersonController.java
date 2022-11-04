@@ -35,8 +35,8 @@ public class PersonController {
         return personService.savePerson(personModel);
     }
 
-    @PutMapping
-    public PersonModelVO updatePerson(@RequestBody PersonModelVO personModel) {
+    @PutMapping("{id}")
+    public PersonModelVO updatePerson(@RequestBody PersonModelVO personModel, @PathVariable("id") Long id) {
         return personService.updatePersonById(personModel);
     }
 }
