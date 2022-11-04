@@ -1,5 +1,6 @@
 package br.com.lucaslucena.restcalculatorspring.models;
 
+import br.com.lucaslucena.restcalculatorspring.data.vo.v1.PersonModelVO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,13 @@ import java.io.Serializable;
 @Entity
 @Table(name = "tb_person")
 public class PersonModel  {
+
+    public PersonModel(PersonModelVO personModelVO) {
+        firstName = personModelVO.getFirstName();
+        lastName = personModelVO.getLastName();
+        address = personModelVO.getAddress();
+        gender = personModelVO.getGender();
+    }
 
 
     @Id

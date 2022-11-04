@@ -17,22 +17,25 @@ public class PersonService {
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
     @Autowired
+    DozerMapper mapper;
+
+    @Autowired
     PersonRepository personRepository;
 
     public PersonModelVO savePerson(PersonModelVO personModelVO) {
-        var personModel = DozerMapper.parseObject(personModelVO, PersonModel.class);
-        return DozerMapper.parseObject(personRepository.save(personModel), PersonModelVO.class);
+        var personModel = mapper.parseObject(personModelVO, PersonModel.class);
+        return mapper.parseObject(personRepository.save(personModel), PersonModelVO.class);
     }
 
     public PersonModelVO findPersonById(Long id) {
         var personModelVO = personRepository.findById(id).orElseThrow(() -> {
             throw new ResourceNotFoundException("Record not found with that ID.");
         });
-        return DozerMapper.parseObject(personModelVO, PersonModelVO.class);
+        return mapper.parseObject(personModelVO, PersonModelVO.class);
     }
 
     public List<PersonModelVO> findAllPersons() {
-        return DozerMapper.parseObjectsList(personRepository.findAll(), PersonModelVO.class);
+        return mapper.parseListOfObjects(personRepository.findAll(), PersonModelVO.class);
     }
 
     public PersonModelVO updatePersonById(PersonModelVO personModel) {
@@ -44,7 +47,7 @@ public class PersonService {
         oldPerson.setFirstName(personModel.getFirstName());
         oldPerson.setLastName(personModel.getLastName());
         oldPerson.setGender(personModel.getGender());
-        return DozerMapper.parseObject(personRepository.save(oldPerson), PersonModelVO.class);
+        return mapper.parseObject(personRepository.save(oldPerson), PersonModelVO.class);
     }
 
     public void deletePersonById(Long id) {
