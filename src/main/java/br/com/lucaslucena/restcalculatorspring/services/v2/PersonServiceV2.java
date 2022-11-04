@@ -1,6 +1,6 @@
-package br.com.lucaslucena.restcalculatorspring.services;
+package br.com.lucaslucena.restcalculatorspring.services.v2;
 
-import br.com.lucaslucena.restcalculatorspring.data.vo.v1.PersonModelVO;
+import br.com.lucaslucena.restcalculatorspring.data.vo.v2.PersonModelVO2;
 import br.com.lucaslucena.restcalculatorspring.exceptions.ResourceNotFoundException;
 import br.com.lucaslucena.restcalculatorspring.mappers.DozerMapper;
 import br.com.lucaslucena.restcalculatorspring.models.PersonModel;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Service
-public class PersonService {
+public class PersonServiceV2 {
 
-    private Logger logger = Logger.getLogger(PersonService.class.getName());
+    private Logger logger = Logger.getLogger(br.com.lucaslucena.restcalculatorspring.services.v1.PersonService.class.getName());
 
     @Autowired
     DozerMapper mapper;
@@ -22,23 +22,23 @@ public class PersonService {
     @Autowired
     PersonRepository personRepository;
 
-    public PersonModelVO savePerson(PersonModelVO personModelVO) {
-        var personModel = mapper.parseObject(personModelVO, PersonModel.class);
-        return mapper.parseObject(personRepository.save(personModel), PersonModelVO.class);
+    public PersonModelVO2 savePerson(PersonModelVO2 personModelVO2) {
+        var personModel = mapper.parseObject(personModelVO2, PersonModel.class);
+        return mapper.parseObject(personRepository.save(personModel), PersonModelVO2.class);
     }
 
-    public PersonModelVO findPersonById(Long id) {
+    public PersonModelVO2 findPersonById(Long id) {
         var personModelVO = personRepository.findById(id).orElseThrow(() -> {
             throw new ResourceNotFoundException("Record not found with that ID.");
         });
-        return mapper.parseObject(personModelVO, PersonModelVO.class);
+        return mapper.parseObject(personModelVO, PersonModelVO2.class);
     }
 
-    public List<PersonModelVO> findAllPersons() {
-        return mapper.parseListOfObjects(personRepository.findAll(), PersonModelVO.class);
+    public List<PersonModelVO2> findAllPersons() {
+        return mapper.parseListOfObjects(personRepository.findAll(), PersonModelVO2.class);
     }
 
-    public PersonModelVO updatePersonById(PersonModelVO personModel) {
+    public PersonModelVO2 updatePersonById(PersonModelVO2 personModel) {
         var oldPerson = personRepository.findById(personModel.getId()).orElseThrow(() -> {
             throw new ResourceNotFoundException("Record not found with that ID.");
         });
@@ -47,7 +47,7 @@ public class PersonService {
         oldPerson.setFirstName(personModel.getFirstName());
         oldPerson.setLastName(personModel.getLastName());
         oldPerson.setGender(personModel.getGender());
-        return mapper.parseObject(personRepository.save(oldPerson), PersonModelVO.class);
+        return mapper.parseObject(personRepository.save(oldPerson), PersonModelVO2.class);
     }
 
     public void deletePersonById(Long id) {

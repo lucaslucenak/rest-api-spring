@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,4 +40,7 @@ public class PersonModel  {
 
     @Column(nullable = false)
     private String gender;
+
+    @Column
+    private Date birthDate;
 }
