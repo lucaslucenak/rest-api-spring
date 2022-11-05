@@ -26,7 +26,7 @@ public class PersonModelVO2 {
 
     private String address;
 
-    @JsonIgnore
+//    @JsonIgnore
     private String gender;
 
     @JsonProperty("birth_date")
