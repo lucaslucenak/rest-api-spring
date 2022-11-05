@@ -1,97 +1,73 @@
-//package br.com.lucaslucena.restcalculatorspring.unitTests.mappers;
-//
-//import br.com.lucaslucena.restcalculatorspring.data.vo.v1.PersonModelVO;
-//import br.com.lucaslucena.restcalculatorspring.mappers.DozerMapper;
-//import br.com.lucaslucena.restcalculatorspring.models.PersonModel;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//
-//public class DozerMapperTest {
-//
-//    MockPerson inputObject;
-//
-//    @BeforeEach
-//    public void setUp() {
-//        inputObject = new MockPerson();
-//    }
-//
-//    @Test
-//    public void parseEntityToVOTest() {
-//        PersonModelVO output = DozerMapper.parseObject(inputObject.mockEntity(), PersonModelVO.class);
-//        assertEquals(Long.valueOf(0L), output.getId());
-//        assertEquals("First Name Test0", output.getFirstName());
-//        assertEquals("Last Name Test0", output.getLastName());
-//        assertEquals("Addres Test0", output.getAddress());
-//        assertEquals("Male", output.getGender());
-//    }
-//
-//    @Test
-//    public void parseEntityListToVOListTest() {
-//        List<PersonModelVO> outputList = DozerMapper.parseObjectsList(inputObject.mockEntityList(), PersonModelVO.class);
-//        PersonModelVO outputZero = outputList.get(0);
-//
-//        assertEquals(Long.valueOf(0L), outputZero.getId());
-//        assertEquals("First Name Test0", outputZero.getFirstName());
-//        assertEquals("Last Name Test0", outputZero.getLastName());
-//        assertEquals("Addres Test0", outputZero.getAddress());
-//        assertEquals("Male", outputZero.getGender());
-//
-//        PersonModelVO outputSeven = outputList.get(7);
-//
-//        assertEquals(Long.valueOf(7L), outputSeven.getId());
-//        assertEquals("First Name Test7", outputSeven.getFirstName());
-//        assertEquals("Last Name Test7", outputSeven.getLastName());
-//        assertEquals("Addres Test7", outputSeven.getAddress());
-//        assertEquals("Female", outputSeven.getGender());
-//
-//        PersonModelVO outputTwelve = outputList.get(12);
-//
-//        assertEquals(Long.valueOf(12L), outputTwelve.getId());
-//        assertEquals("First Name Test12", outputTwelve.getFirstName());
-//        assertEquals("Last Name Test12", outputTwelve.getLastName());
-//        assertEquals("Addres Test12", outputTwelve.getAddress());
-//        assertEquals("Male", outputTwelve.getGender());
-//    }
-//
-//    @Test
-//    public void parseVOToEntityTest() {
-//        PersonModel output = DozerMapper.parseObject(inputObject.mockVO(), PersonModel.class);
-//        assertEquals(Long.valueOf(0L), output.getId());
-//        assertEquals("First Name Test0", output.getFirstName());
-//        assertEquals("Last Name Test0", output.getLastName());
-//        assertEquals("Addres Test0", output.getAddress());
-//        assertEquals("Male", output.getGender());
-//    }
-//
-//    @Test
-//    public void parserVOListToEntityListTest() {
-//        List<PersonModel> outputList = DozerMapper.parseObjectsList(inputObject.mockVOList(), PersonModel.class);
-//        PersonModel outputZero = outputList.get(0);
-//
-//        assertEquals(Long.valueOf(0L), outputZero.getId());
-//        assertEquals("First Name Test0", outputZero.getFirstName());
-//        assertEquals("Last Name Test0", outputZero.getLastName());
-//        assertEquals("Addres Test0", outputZero.getAddress());
-//        assertEquals("Male", outputZero.getGender());
-//
-//        PersonModel outputSeven = outputList.get(7);
-//
-//        assertEquals(Long.valueOf(7L), outputSeven.getId());
-//        assertEquals("First Name Test7", outputSeven.getFirstName());
-//        assertEquals("Last Name Test7", outputSeven.getLastName());
-//        assertEquals("Addres Test7", outputSeven.getAddress());
-//        assertEquals("Female", outputSeven.getGender());
-//
-//        PersonModel outputTwelve = outputList.get(12);
-//
-//        assertEquals(Long.valueOf(12L), outputTwelve.getId());
-//        assertEquals("First Name Test12", outputTwelve.getFirstName());
-//        assertEquals("Last Name Test12", outputTwelve.getLastName());
-//        assertEquals("Addres Test12", outputTwelve.getAddress());
-//        assertEquals("Male", outputTwelve.getGender());
-//    }
-//}
+package br.com.lucaslucena.restcalculatorspring.unitTests.mappers;
+
+import br.com.lucaslucena.restcalculatorspring.data.vo.v1.PersonModelVO;
+import br.com.lucaslucena.restcalculatorspring.data.vo.v2.PersonModelVO2;
+import br.com.lucaslucena.restcalculatorspring.mappers.DozerMapper;
+import br.com.lucaslucena.restcalculatorspring.models.PersonModel;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+
+import javax.swing.text.DateFormatter;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class DozerMapperTest {
+
+    @Mock
+    DozerMapper mapper;
+
+    @BeforeEach
+    public void setUp() {
+        mapper = Mockito.mock(DozerMapper.class);
+    }
+
+    @Test
+    public void shouldMapPersonVOIntoPersonModel() {
+        PersonModelVO personModelVO = new PersonModelVO(1L, "Lucas", "Lucena", "IREMAR", "M");
+        PersonModel personModel = new PersonModel(1L, "Lucas", "Lucena", "IREMAR", "M", new Date());
+        Mockito.when(mapper.parseObject(personModelVO, PersonModel.class)).thenReturn(personModel);
+
+        Assertions.assertEquals(mapper.parseObject(personModelVO, PersonModel.class), personModel);
+    }
+
+    @Test
+    public void shouldMapPersonVOListIntoPersonModelList() {
+        PersonModelVO personModelVO_1 = new PersonModelVO(1L, "Lucas", "Lucena", "Iremar", "M");
+        PersonModelVO personModelVO_2 = new PersonModelVO(2L, "Maria", "Lucena", "Marinho", "F");
+        List<PersonModelVO> personModelVOs = new ArrayList<>(List.of(personModelVO_1, personModelVO_2));
+        PersonModel personModel_1 = new PersonModel(1L, "Lucas", "Lucena", "Iremar", "M", new Date());
+        PersonModel personModel_2 = new PersonModel(2L, "Maria", "Lucena", "Marinho", "F", new Date());
+        List<PersonModel> personModels = new ArrayList<>(List.of(personModel_1, personModel_2));
+
+        Mockito.when(mapper.parseListOfObjects(personModelVOs, PersonModel.class)).thenReturn(personModels);
+        Assertions.assertEquals(mapper.parseListOfObjects(personModelVOs, PersonModel.class), personModels);
+    }
+
+    @Test
+    public void shouldMapPersonVO2ListIntoPersonModelList() {
+        PersonModelVO2 personModelVO2_1 = new PersonModelVO2(1L, "Lucas", "Lucena", "Iremar", "M", new Date());
+        PersonModelVO2 personModelVO2_2 = new PersonModelVO2(2L, "Maria", "Lucena", "Marinho", "F", new Date());
+        List<PersonModelVO2> personModelVO2s = new ArrayList<>(List.of(personModelVO2_1, personModelVO2_2));
+        PersonModel personModel_1 = new PersonModel(1L, "Lucas", "Lucena", "Iremar", "M", new Date());
+        PersonModel personModel_2 = new PersonModel(2L, "Maria", "Lucena", "Marinho", "F", new Date());
+        List<PersonModel> personModels = new ArrayList<>(List.of(personModel_1, personModel_2));
+
+        Mockito.when(mapper.parseListOfObjects(personModelVO2s, PersonModel.class)).thenReturn(personModels);
+        Assertions.assertEquals(mapper.parseListOfObjects(personModelVO2s, PersonModel.class), personModels);
+    }
+
+    @Test
+    public void shouldMapPersonVO2IntoPersonModel() {
+        PersonModelVO2 personModelVO2 = new PersonModelVO2(1L, "Lucas", "Lucena", "IREMAR", "M", new Date());
+        PersonModel personModel = new PersonModel(1L, "Lucas", "Lucena", "IREMAR", "M", new Date());
+        Mockito.when(mapper.parseObject(personModelVO2, PersonModel.class)).thenReturn(personModel);
+
+        Assertions.assertEquals(mapper.parseObject(personModelVO2, PersonModel.class), personModel);
+    }
+}
