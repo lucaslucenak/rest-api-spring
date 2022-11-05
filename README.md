@@ -5,6 +5,21 @@ That API is dedicated to study some contents like REST, Serialization, Versionin
 To run that Spring Boot application you might have PostgreSQL database installed in your machine and create a new database called "rest_calculator" and the FlyWay gonna take care to populate your tables.
 
 ## Calculator Endpoints
+You can make some math operations there and have their results at de body of the response.<br/>
+GET requests are accepted, only.
+
+
+````markdown
+Add 2 numbers: http://localhost:8080/v1/math/addition/{n1}/{n2}
+Subtract 2 numbers: http://localhost:8080/v1/math/subtraction/{n1}/{n2}
+Multiply 2 numbers: http://localhost:8080/v1/math/multiplication/{n1}/{n2}
+Divide 2 numbers: http://localhost:8080/v1/math/division/{n1}/{n2}
+Square from 1 number: http://localhost:8080/v1/math/square/{n1}
+Power from 1 number: http://localhost:8080/v1/math/power/{n1}/{n2} // n2 is the power of n1
+````
+
+
+
 
 ## Person Endpoints
 You can manage some entities from the Person Model created using JSON, XML or YML.

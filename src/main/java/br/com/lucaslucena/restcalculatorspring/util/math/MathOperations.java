@@ -24,7 +24,7 @@ public class MathOperations {
         return parsedN1 - parsedN2;
     }
 
-    public Double multiplicateTwoNumbers(String n1, String n2) {
+    public Double multiplyTwoNumbers(String n1, String n2) {
         Double parsedN1 = numberUtil.parseDouble(n1);
         Double parsedN2 = numberUtil.parseDouble(n2);
         return parsedN1 * parsedN2;

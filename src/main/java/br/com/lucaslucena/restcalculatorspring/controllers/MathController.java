@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/math")
+@RequestMapping("/v1/math")
 public class MathController {
 
     @Autowired
@@ -26,8 +26,8 @@ public class MathController {
     }
 
     @GetMapping("/multiplication/{n1}/{n2}")
-    public Double multiplicateTwoNumbers(@PathVariable("n1") String n1, @PathVariable("n2") String n2) {
-        return mathOperations.multiplicateTwoNumbers(n1, n2);
+    public Double multiplyTwoNumbers(@PathVariable("n1") String n1, @PathVariable("n2") String n2) {
+        return mathOperations.multiplyTwoNumbers(n1, n2);
     }
 
     @GetMapping("/division/{n1}/{n2}")
