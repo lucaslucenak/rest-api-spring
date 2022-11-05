@@ -15,12 +15,14 @@ public class PersonControllerV2 {
     @Autowired
     PersonServiceV2 personService;
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}",
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public PersonModelVO2 findPerson(@PathVariable("id") Long id) {
         return personService.findPersonById(id);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public List<PersonModelVO2> findAllPersons() {
         return personService.findAllPersons();
     }
@@ -30,12 +32,16 @@ public class PersonControllerV2 {
         personService.deletePersonById(id);
     }
 
-    @PostMapping
+    @PostMapping(
+            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public PersonModelVO2 createPerson(@RequestBody PersonModelVO2 personModel) {
         return personService.savePerson(personModel);
     }
 
-    @PutMapping("{id}")
+    @PutMapping(value = "{id}",
+            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public PersonModelVO2 updatePerson(@RequestBody PersonModelVO2 personModel, @PathVariable("id") Long id) {
         return personService.updatePersonById(personModel);
     }
