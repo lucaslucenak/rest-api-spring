@@ -13,7 +13,9 @@ import org.mockito.Mockito;
 
 import javax.swing.text.DateFormatter;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DozerMapperTest {
 
@@ -32,6 +34,32 @@ public class DozerMapperTest {
         Mockito.when(mapper.parseObject(personModelVO, PersonModel.class)).thenReturn(personModel);
 
         Assertions.assertEquals(mapper.parseObject(personModelVO, PersonModel.class), personModel);
+    }
+
+    @Test
+    public void shouldMapPersonVOListIntoPersonModelList() {
+        PersonModelVO personModelVO_1 = new PersonModelVO(1L, "Lucas", "Lucena", "Iremar", "M");
+        PersonModelVO personModelVO_2 = new PersonModelVO(2L, "Maria", "Lucena", "Marinho", "F");
+        List<PersonModelVO> personModelVOs = new ArrayList<>(List.of(personModelVO_1, personModelVO_2));
+        PersonModel personModel_1 = new PersonModel(1L, "Lucas", "Lucena", "Iremar", "M", new Date());
+        PersonModel personModel_2 = new PersonModel(2L, "Maria", "Lucena", "Marinho", "F", new Date());
+        List<PersonModel> personModels = new ArrayList<>(List.of(personModel_1, personModel_2));
+
+        Mockito.when(mapper.parseListOfObjects(personModelVOs, PersonModel.class)).thenReturn(personModels);
+        Assertions.assertEquals(mapper.parseListOfObjects(personModelVOs, PersonModel.class), personModels);
+    }
+
+    @Test
+    public void shouldMapPersonVO2ListIntoPersonModelList() {
+        PersonModelVO2 personModelVO2_1 = new PersonModelVO2(1L, "Lucas", "Lucena", "Iremar", "M", new Date());
+        PersonModelVO2 personModelVO2_2 = new PersonModelVO2(2L, "Maria", "Lucena", "Marinho", "F", new Date());
+        List<PersonModelVO2> personModelVO2s = new ArrayList<>(List.of(personModelVO2_1, personModelVO2_2));
+        PersonModel personModel_1 = new PersonModel(1L, "Lucas", "Lucena", "Iremar", "M", new Date());
+        PersonModel personModel_2 = new PersonModel(2L, "Maria", "Lucena", "Marinho", "F", new Date());
+        List<PersonModel> personModels = new ArrayList<>(List.of(personModel_1, personModel_2));
+
+        Mockito.when(mapper.parseListOfObjects(personModelVO2s, PersonModel.class)).thenReturn(personModels);
+        Assertions.assertEquals(mapper.parseListOfObjects(personModelVO2s, PersonModel.class), personModels);
     }
 
     @Test
